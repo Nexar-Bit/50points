@@ -72,11 +72,13 @@ function LaurelTrophy() {
           strokeLinecap="round"
         />
       </svg>
-      <img
-        src={staticFile("/Img/d_gold-cup.png")}
-        alt=""
-        className="gold-cup-badge"
-      />
+      <div className="gold-cup-badge__inner">
+        <img
+          src={staticFile("/Img/d_gold-cup.png")}
+          alt=""
+          className="gold-cup-badge"
+        />
+      </div>
     </div>
   );
 }
@@ -210,23 +212,6 @@ function HeroCtaPanel({ t, entering, onGuestEnter }) {
   );
 }
 
-function StatCrownIcon({ className }) {
-  return (
-    <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden>
-      <path
-        d="M6 22h20l-2-12-4 5-4-7-4 7-4-5-2 12z"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-      />
-      <circle cx="8" cy="11" r="1.2" fill="currentColor" />
-      <circle cx="16" cy="8" r="1.2" fill="currentColor" />
-      <circle cx="24" cy="11" r="1.2" fill="currentColor" />
-      <path d="M6 22h20v2H6v-2z" fill="currentColor" />
-    </svg>
-  );
-}
-
 function HeroStatsBar({ t }) {
   const cells = [
     {
@@ -249,7 +234,7 @@ function HeroStatsBar({ t }) {
     },
     {
       variant: "purple",
-      icon: StatCrownIcon,
+      imageSrc: staticFile("/Img/4.png"),
       fame: true,
       value: t("hero.statFameTitle"),
       label: t("hero.statFameSub"),
@@ -264,24 +249,26 @@ function HeroStatsBar({ t }) {
             key={cell.label}
             className={`hero-stats-cell hero-stats-cell--${cell.variant}`}
           >
-            {cell.imageSrc ? (
+            <div className="hero-stats-cell__icon-slot">
               <img
                 src={cell.imageSrc}
                 alt=""
                 aria-hidden
                 className="hero-stats-cell__icon hero-stats-cell__icon--img"
               />
-            ) : (
-              <cell.icon className="hero-stats-cell__icon" />
-            )}
-            <span
-              className={
-                cell.fame ? "hero-stats-cell__value hero-stats-cell__value--title" : "hero-stats-cell__value"
-              }
-            >
-              {cell.value}
-            </span>
-            <span className="hero-stats-cell__label">{cell.label}</span>
+            </div>
+            <div className="hero-stats-cell__value-slot">
+              <span
+                className={
+                  cell.fame ? "hero-stats-cell__value hero-stats-cell__value--word" : "hero-stats-cell__value"
+                }
+              >
+                {cell.value}
+              </span>
+            </div>
+            <div className="hero-stats-cell__label-slot">
+              <span className="hero-stats-cell__label">{cell.label}</span>
+            </div>
           </div>
         ))}
       </div>
