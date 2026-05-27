@@ -64,8 +64,8 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
 
         <div className="text-center mb-6">
           <img
-            src="/50points/images/race50-logo.png"
-            alt="RACE50"
+            src="/50points/images/50points-logo.png"
+            alt="50points"
             className="h-10 w-auto mx-auto mb-3"
           />
           <h2 className="text-2xl font-bold text-white">

@@ -15,8 +15,8 @@ export default function Footer() {
           <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="flex items-center mb-4">
               <img
-                src="/50points/images/race50-logo.png"
-                alt="RACE50"
+                src="/50points/images/50points-logo.png"
+                alt="50points"
                 className="h-8 w-auto"
               />
             </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-zinc-600">
-            &copy; {new Date().getFullYear()} RACE50. {t("footer.copyright")}
+            &copy; {new Date().getFullYear()} 50points. {t("footer.copyright")}
           </p>
           <div className="flex items-center gap-4">
             <span className="text-xs text-zinc-600">{t("footer.ageRestriction")}</span>

@@ -39,8 +39,8 @@ export default function Header() {
           <div className="flex items-center justify-between h-16 sm:h-18">
             <Link href="/" className="flex items-center group">
               <Image
-                src={asset("/images/race50-logo.png")}
-                alt="RACE50 - The Champions Tournament"
+                src={asset("/images/50points-logo.png")}
+                alt="50points - The Champions Tournament"
                 width={180}
                 height={37}
                 className="h-9 w-auto object-contain"

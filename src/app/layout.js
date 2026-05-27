@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/layout/Providers";
 import ConditionalShell from "@/components/layout/ConditionalShell";
+import { staticFile } from "@/lib/config/paths";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,10 +11,15 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "RACE50 - The Champions Tournament",
+  title: "50points - The Champions Tournament",
   description:
     "Pick your horses. Earn points. Dominate the leaderboard. Free horse racing tournament platform with live races and competitive rankings.",
-  keywords: ["horse racing", "tournament", "race50", "competition", "leaderboard", "free", "champions"],
+  keywords: ["horse racing", "tournament", "50points", "competition", "leaderboard", "free", "champions"],
+  icons: {
+    icon: staticFile("/Img/favicon.ico"),
+    shortcut: staticFile("/Img/favicon.ico"),
+    apple: staticFile("/Img/favicon.ico"),
+  },
 };
 
 export default function RootLayout({ children }) {

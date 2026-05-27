@@ -1,4 +1,4 @@
-# RACE50 (50points)
+# 50points
 
 Free-to-play horse racing tournament platform built with Next.js 14, Prisma, and SQLite.
 
