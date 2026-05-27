@@ -140,12 +140,13 @@ function MyFiftyPointsBrand({ taglineIsGo, taglineTo }) {
         <span className="my-points-fifty-num" aria-hidden>
           5
         </span>
-        <img
-          src={staticFile("/Img/50points.png")}
-          alt=""
-          aria-hidden
-          className="my-points-zero-mark"
-        />
+        <span className="my-points-zero-mark-wrap" aria-hidden>
+          <span className="my-points-zero-mark">
+            <span className="my-points-zero-mark__bar my-points-zero-mark__bar--top" />
+            <span className="my-points-zero-mark__bar my-points-zero-mark__bar--mid" />
+            <span className="my-points-zero-mark__bar my-points-zero-mark__bar--bot" />
+          </span>
+        </span>
       </div>
 
       <h1 className="my-points-word" aria-label="MY 50 POINTS">

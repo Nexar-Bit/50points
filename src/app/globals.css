@@ -1844,34 +1844,79 @@ body {
 }
 
 .my-points-fifty-row {
-  --my-points-mark-h: clamp(5.5rem, 18vw, 9.5rem);
-  display: flex;
+  --my-points-mark-h: clamp(6.25rem, 20vw, 10.5rem);
+  /* Match glyph ink height of “5”, not the full 1em line box */
+  --my-points-zero-d: 0.86em;
+  --my-points-five-stroke: calc(var(--my-points-zero-d) * 0.11);
+  font-size: var(--my-points-mark-h);
+  display: inline-flex;
   align-items: center;
   gap: 0;
-  height: var(--my-points-mark-h);
   margin-top: -0.25rem;
+}
+
+@supports (width: 1cap) {
+  .my-points-fifty-row {
+    --my-points-zero-d: 1cap;
+  }
 }
 
 .my-points-fifty-num {
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  height: var(--my-points-mark-h);
-  font-size: var(--my-points-mark-h);
+  font-size: 1em;
   font-weight: 900;
   color: #fff;
   letter-spacing: -0.04em;
   line-height: 1;
+  margin-right: 0.125em;
+}
+
+.my-points-zero-mark-wrap {
+  position: relative;
+  flex: 0 0 var(--my-points-zero-d);
+  width: var(--my-points-zero-d);
+  height: var(--my-points-zero-d);
+  min-width: var(--my-points-zero-d);
+  min-height: var(--my-points-zero-d);
+  padding: var(--my-points-five-stroke);
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: #fff;
+  overflow: hidden;
+  filter: drop-shadow(0 0 16px rgba(124, 58, 237, 0.3));
 }
 
 .my-points-zero-mark {
-  flex-shrink: 0;
-  height: var(--my-points-mark-h);
-  width: auto;
-  margin-left: -0.08em;
-  object-fit: contain;
-  object-position: left center;
-  filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.35));
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.my-points-zero-mark__bar {
+  display: block;
+  flex: 1 1 0;
+  width: 100%;
+  min-height: 0;
+  border-radius: 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.my-points-zero-mark__bar--top {
+  background: linear-gradient(180deg, #b44ff0 0%, #8b2fc9 50%, #7c3aed 100%);
+}
+
+.my-points-zero-mark__bar--mid {
+  background: linear-gradient(180deg, #3de8f7 0%, #22d3ee 50%, #06b6d4 100%);
+}
+
+.my-points-zero-mark__bar--bot {
+  background: linear-gradient(180deg, #fde047 0%, #fbbf24 50%, #f59e0b 100%);
 }
 
 .my-points-word {
