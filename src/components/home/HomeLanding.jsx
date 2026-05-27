@@ -206,9 +206,44 @@ function HeroCtaPanel({ t, entering, onGuestEnter }) {
       <p className="hero-cta-panel__slogan">
         <span className="text-purple-light">{t("hero.sloganPoints")}</span>{" "}
         <span className="text-cyan-light">{t("hero.sloganGame")}</span>{" "}
-        <span className="text-gold-light">{t("hero.sloganGlory")}</span>
+        <span className="text-gold-light">{t("hero.sloganStrategy")}</span>
       </p>
     </div>
+  );
+}
+
+function starOutlinePath(cx, cy, outerR, innerR) {
+  const points = [];
+  for (let i = 0; i < 10; i += 1) {
+    const radius = i % 2 === 0 ? outerR : innerR;
+    const angle = -Math.PI / 2 + (i * Math.PI) / 5;
+    points.push(`${cx + radius * Math.cos(angle)},${cy + radius * Math.sin(angle)}`);
+  }
+  return `M${points.join(" L")} Z`;
+}
+
+function StatNestedStarsIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 32 32" fill="none" aria-hidden>
+      <path
+        d={starOutlinePath(16, 16, 13.2, 5.6)}
+        stroke="#a855f7"
+        strokeWidth="1.15"
+        strokeLinejoin="round"
+      />
+      <path
+        d={starOutlinePath(16, 16, 9.8, 4.1)}
+        stroke="#22d3ee"
+        strokeWidth="1.1"
+        strokeLinejoin="round"
+      />
+      <path
+        d={starOutlinePath(16, 16, 6.6, 2.75)}
+        stroke="#fbbf24"
+        strokeWidth="1.05"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
@@ -234,7 +269,7 @@ function HeroStatsBar({ t }) {
     },
     {
       variant: "purple",
-      imageSrc: staticFile("/Img/4.png"),
+      icon: StatNestedStarsIcon,
       fame: true,
       value: t("hero.statFameTitle"),
       label: t("hero.statFameSub"),
@@ -250,21 +285,32 @@ function HeroStatsBar({ t }) {
             className={`hero-stats-cell hero-stats-cell--${cell.variant}`}
           >
             <div className="hero-stats-cell__icon-slot">
-              <img
-                src={cell.imageSrc}
-                alt=""
-                aria-hidden
-                className="hero-stats-cell__icon hero-stats-cell__icon--img"
-              />
+              {cell.icon ? (
+                <cell.icon className="hero-stats-cell__icon hero-stats-cell__icon--stars" />
+              ) : (
+                <img
+                  src={cell.imageSrc}
+                  alt=""
+                  aria-hidden
+                  className="hero-stats-cell__icon hero-stats-cell__icon--img"
+                />
+              )}
             </div>
             <div className="hero-stats-cell__value-slot">
-              <span
-                className={
-                  cell.fame ? "hero-stats-cell__value hero-stats-cell__value--word" : "hero-stats-cell__value"
-                }
-              >
-                {cell.value}
-              </span>
+              {cell.value === "50" ? (
+                <span className="hero-stats-cell__value hero-stats-cell__value--fifty" aria-label="50">
+                  <span className="hero-stats-cell__digit">5</span>
+                  <span className="hero-stats-cell__digit hero-stats-cell__digit--outlined">0</span>
+                </span>
+              ) : (
+                <span
+                  className={
+                    cell.fame ? "hero-stats-cell__value hero-stats-cell__value--word" : "hero-stats-cell__value"
+                  }
+                >
+                  {cell.value}
+                </span>
+              )}
             </div>
             <div className="hero-stats-cell__label-slot">
               <span className="hero-stats-cell__label">{cell.label}</span>

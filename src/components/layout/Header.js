@@ -7,7 +7,7 @@ import { Menu, X, Trophy, Home, BarChart3, User, Zap, LogOut } from "lucide-reac
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import AuthModal from "@/components/auth/AuthModal";
-import { asset } from "@/lib/config/paths";
+import { logoAsset } from "@/lib/config/paths";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -39,10 +39,10 @@ export default function Header() {
           <div className="flex items-center justify-between h-16 sm:h-18">
             <Link href="/" className="flex items-center group">
               <Image
-                src={asset("/images/50points-logo.png")}
+                src={logoAsset()}
                 alt="50points - The Champions Tournament"
-                width={180}
-                height={37}
+                width={220}
+                height={48}
                 className="h-9 w-auto object-contain"
                 priority
               />

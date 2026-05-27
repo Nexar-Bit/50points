@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { X, User, Mail, Lock, Zap } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
+import { logoFile } from '@/lib/config/paths';
 
 export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
   const [tab, setTab] = useState(initialTab);
@@ -64,9 +65,9 @@ export default function AuthModal({ isOpen, onClose, initialTab = 'login' }) {
 
         <div className="text-center mb-6">
           <img
-            src="/50points/images/50points-logo.png"
+            src={logoFile()}
             alt="50points"
-            className="h-10 w-auto mx-auto mb-3"
+            className="h-10 w-auto mx-auto mb-3 object-contain"
           />
           <h2 className="text-2xl font-bold text-white">
             {tab === 'login' ? t('auth.login') : t('auth.register')}

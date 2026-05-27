@@ -4,7 +4,14 @@ import Link from "next/link";
 import { Target, Trophy, TrendingUp, ChevronRight, ArrowRight } from "lucide-react";
 import AnimateInView from "@/components/ui/AnimateInView";
 import HomeLanding from "@/components/home/HomeLanding";
-import { tournaments, topPlayers, howItWorks } from "@/lib/data/mockData";
+import LiveTournamentCard from "@/components/home/LiveTournamentCard";
+import { tournaments, topPlayers } from "@/lib/data/mockData";
+
+const howItWorksMeta = [
+  { step: 1, icon: "target" },
+  { step: 2, icon: "trophy" },
+  { step: 3, icon: "trending-up" },
+];
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { staticFile } from "@/lib/config/paths";
 
@@ -26,8 +33,14 @@ function StepIcon({ name, className }) {
 export default function Home() {
   const { t } = useLanguage();
 
+  const howItWorks = howItWorksMeta.map((item) => ({
+    ...item,
+    title: t(`howItWorksSection.step${item.step}Title`),
+    description: t(`howItWorksSection.step${item.step}Desc`),
+  }));
+
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-x-hidden">
       <HomeLanding />
 
       {/* ─── LIVE TOURNAMENTS ─── */}
@@ -48,66 +61,20 @@ export default function Home() {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3">
               {t("tournamentsSection.title")}
             </h2>
-            <p className="text-zinc-500 text-sm sm:text-base mb-10 sm:mb-14 max-w-lg">
-              {t("tournamentsSection.description")}
+            <p className="text-sm sm:text-base text-zinc-300 mb-6 max-w-xl leading-relaxed">
+              {t("tournamentsSection.descriptionLead")}{" "}
+              <span className="text-cyan-light font-semibold">
+                {t("tournamentsSection.descriptionHighlight")}
+              </span>
+              .
             </p>
+            <div className="live-tournaments-section__divider" aria-hidden />
           </AnimateInView>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="live-tournaments-section__grid">
             {tournaments.map((tournament, i) => (
               <AnimateInView key={tournament.id} delay={i * 0.15}>
-                <Link href="/tournaments" className="block glass-card rounded-2xl overflow-hidden group hover:glow-purple transition-all duration-500 gradient-border">
-                  <div className="relative h-32 overflow-hidden">
-                    <img src={staticFile("/images/live-feed.jpg")} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-brand-card via-brand-card/50 to-transparent" />
-                  </div>
-                  <div className="px-5 sm:px-6 pt-4 pb-4">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-purple-light transition-colors">
-                          {tournament.trackName}
-                        </h3>
-                        <p className="text-xs text-zinc-500 mt-0.5">{tournament.location}</p>
-                      </div>
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wide ${
-                        tournament.status === "LIVE"
-                          ? "bg-green-500/10 text-green-400 border border-green-500/20"
-                          : "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                      }`}>
-                        {tournament.status === "LIVE" && <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse-live" />}
-                        {tournament.status === "LIVE" ? t("tournamentsSection.live") : t("tournamentsSection.upcoming")}
-                      </span>
-                    </div>
-
-                    <div className="mb-4">
-                      <div className="flex items-center justify-between text-xs mb-1.5">
-                        <span className="text-zinc-400">
-                          {t("tournamentsPage.race")} {tournament.currentRace} {t("tournamentsSection.raceOf")} {tournament.totalRaces}
-                        </span>
-                        <span className="text-zinc-500">
-                          {tournament.status === "LIVE"
-                            ? `${t("tournamentsSection.next")}: ${tournament.nextRace}`
-                            : `${t("tournamentsSection.starts")}: ${tournament.startTime}`}
-                        </span>
-                      </div>
-                      <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
-                        <div className="h-full bg-gradient-to-r from-purple to-cyan rounded-full transition-all duration-500"
-                          style={{ width: `${(tournament.currentRace / tournament.totalRaces) * 100}%` }} />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 text-xs text-zinc-500 mb-5">
-                      <div className="flex items-center gap-1.5">
-                        <img src={staticFile("/images/icons/icon-players.png")} alt="" className="w-4 h-4 object-contain" />
-                        <span>{tournament.players.toLocaleString()} {t("tournamentsSection.players")}</span>
-                      </div>
-                    </div>
-
-                    <div className="w-full py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-purple to-purple-light rounded-xl btn-glow opacity-90 group-hover:opacity-100 transition-opacity text-center">
-                      {t("tournamentsSection.enterTournament")}
-                    </div>
-                  </div>
-                </Link>
+                <LiveTournamentCard tournament={tournament} t={t} featured={i === 0} />
               </AnimateInView>
             ))}
           </div>

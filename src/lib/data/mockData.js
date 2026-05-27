@@ -142,7 +142,7 @@ export const howItWorks = [
   {
     step: 2,
     title: "Elige tus Caballos",
-    description: "Explora las carreras, analiza las cuotas, estudia los formularios y haz tus selecciones antes de que comience la carrera.",
+    description: "Explora las carreras, analiza las cuotas, estudia los formularios y haz tus selecciones antes de que comience el torneo.",
     icon: "trophy",
   },
   {

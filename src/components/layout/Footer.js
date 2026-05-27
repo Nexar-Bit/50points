@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Zap } from "lucide-react";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
+import { logoFile } from "@/lib/config/paths";
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -15,9 +16,9 @@ export default function Footer() {
           <div className="col-span-2 sm:col-span-1">
             <Link href="/" className="flex items-center mb-4">
               <img
-                src="/50points/images/50points-logo.png"
+                src={logoFile()}
                 alt="50points"
-                className="h-8 w-auto"
+                className="h-8 w-auto object-contain"
               />
             </Link>
             <p className="text-sm text-zinc-500 leading-relaxed">
