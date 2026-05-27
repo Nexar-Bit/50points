@@ -1,19 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { Target, Trophy, TrendingUp, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronRight, ArrowRight } from "lucide-react";
 import AnimateInView from "@/components/ui/AnimateInView";
 import HomeLanding from "@/components/home/HomeLanding";
 import LiveTournamentCard from "@/components/home/LiveTournamentCard";
+import HowItWorksStepCard from "@/components/home/HowItWorksStepCard";
+import TournamentPlaysSection from "@/components/home/TournamentPlaysSection";
 import { tournaments, topPlayers } from "@/lib/data/mockData";
-
-const howItWorksMeta = [
-  { step: 1, icon: "target" },
-  { step: 2, icon: "trophy" },
-  { step: 3, icon: "trending-up" },
-];
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { staticFile } from "@/lib/config/paths";
+
+const howItWorksMeta = [{ step: 1 }, { step: 2 }, { step: 3 }];
 
 function getRankStyle(rank) {
   switch (rank) {
@@ -24,20 +22,65 @@ function getRankStyle(rank) {
   }
 }
 
-function StepIcon({ name, className }) {
-  const icons = { target: Target, trophy: Trophy, "trending-up": TrendingUp };
-  const Icon = icons[name] || Target;
-  return <Icon className={className} />;
+function getStepBullets(step, t) {
+  return [1, 2, 3].map((n) => ({
+    lead: t(`howItWorksSection.step${step}Bullet${n}Lead`),
+    text: t(`howItWorksSection.step${step}Bullet${n}Text`),
+  }));
 }
 
 export default function Home() {
   const { t } = useLanguage();
 
-  const howItWorks = howItWorksMeta.map((item) => ({
-    ...item,
-    title: t(`howItWorksSection.step${item.step}Title`),
-    description: t(`howItWorksSection.step${item.step}Desc`),
-  }));
+  const howItWorks = howItWorksMeta.map((item) => {
+    const stepLabel = `${t("howItWorksSection.step")} ${item.step}`.toUpperCase();
+
+    if (item.step === 1) {
+      return {
+        ...item,
+        variant: "strategy",
+        stepLabel,
+        titleLead: t("howItWorksSection.step1TitleLead"),
+        titleAccent: t("howItWorksSection.step1TitleAccent"),
+        intro: t("howItWorksSection.step1Intro"),
+        strategies: [
+          {
+            name: t("strategies.fullPoint"),
+            description: t("howItWorksSection.step1FullPointDesc"),
+            horseCount: 1,
+          },
+          {
+            name: t("strategies.dualPoint"),
+            description: t("howItWorksSection.step1DualPointDesc"),
+            horseCount: 2,
+          },
+          {
+            name: t("strategies.smartPoint"),
+            description: t("howItWorksSection.step1SmartPointDesc"),
+            horseCount: 3,
+          },
+        ],
+      };
+    }
+
+    if (item.step === 2) {
+      return {
+        ...item,
+        variant: "paragraph",
+        stepLabel,
+        title: t("howItWorksSection.step2Title"),
+        description: t("howItWorksSection.step2Desc"),
+      };
+    }
+
+    return {
+      ...item,
+      variant: "bullets",
+      stepLabel,
+      title: t(`howItWorksSection.step${item.step}Title`),
+      bullets: getStepBullets(item.step, t),
+    };
+  });
 
   return (
     <div className="relative overflow-x-hidden">
@@ -74,7 +117,11 @@ export default function Home() {
           <div className="live-tournaments-section__grid">
             {tournaments.map((tournament, i) => (
               <AnimateInView key={tournament.id} delay={i * 0.15}>
-                <LiveTournamentCard tournament={tournament} t={t} featured={i === 0} />
+                <LiveTournamentCard
+                  tournament={tournament}
+                  t={t}
+                  featured={i === 0}
+                />
               </AnimateInView>
             ))}
           </div>
@@ -101,55 +148,28 @@ export default function Home() {
             </div>
           </AnimateInView>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8">
+          <div className="how-it-works-grid">
             {howItWorks.map((step, i) => (
               <AnimateInView key={step.step} delay={i * 0.15}>
-                <div className="relative glass-card rounded-2xl p-6 sm:p-8 group hover:glow-purple transition-all duration-500 h-full">
-                  <div className="absolute -top-3 -left-1 sm:-top-4 sm:-left-2">
-                    <span className="text-6xl sm:text-7xl font-black text-white/[0.03] select-none">{step.step}</span>
-                  </div>
-                  <div className="relative mb-5 sm:mb-6">
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-purple/20 to-purple/5 border border-purple/10 flex items-center justify-center group-hover:border-purple/30 transition-colors duration-300">
-                      <StepIcon name={step.icon} className="w-6 h-6 sm:w-7 sm:h-7 text-purple-light" />
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-semibold text-purple-light/60 uppercase tracking-wider">
-                        {t("howItWorksSection.step")} {step.step}
-                      </span>
-                    </div>
-                    <h3 className="text-lg sm:text-xl font-bold text-white mb-2.5 group-hover:text-purple-light transition-colors">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-zinc-500 leading-relaxed">{step.description}</p>
-                  </div>
-                </div>
+                <HowItWorksStepCard
+                  step={step.step}
+                  stepLabel={step.stepLabel}
+                  variant={step.variant}
+                  title={step.title}
+                  titleLead={step.titleLead}
+                  titleAccent={step.titleAccent}
+                  intro={step.intro}
+                  description={step.description}
+                  strategies={step.strategies}
+                  bullets={step.bullets}
+                />
               </AnimateInView>
             ))}
           </div>
 
           <AnimateInView delay={0.3}>
-            <div className="mt-12 sm:mt-16 glass-card rounded-2xl p-6 sm:p-8">
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-6 text-center">
-                {t("howItWorksSection.chooseStrategy")}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {[
-                  { name: t("strategies.fullPoint"), points: t("strategies.fullPointsLabel"), risk: t("strategies.highRisk"), riskColor: "text-red-400", description: t("strategies.fullDesc"), gradient: "from-red-500/10 to-transparent", border: "border-red-500/10 hover:border-red-500/30" },
-                  { name: t("strategies.dualPoint"), points: t("strategies.dualPointsLabel"), risk: t("strategies.medRisk"), riskColor: "text-amber-400", description: t("strategies.dualDesc"), gradient: "from-amber-500/10 to-transparent", border: "border-amber-500/10 hover:border-amber-500/30" },
-                  { name: t("strategies.smartPick"), points: t("strategies.smartPointsLabel"), risk: t("strategies.lowRisk"), riskColor: "text-green-400", description: t("strategies.smartDesc"), gradient: "from-green-500/10 to-transparent", border: "border-green-500/10 hover:border-green-500/30" },
-                ].map((strat, i) => (
-                  <div key={i} className={`rounded-xl p-5 bg-gradient-to-b ${strat.gradient} border ${strat.border} transition-all duration-300`}>
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="font-bold text-white">{strat.name}</h4>
-                      <span className={`text-[11px] font-semibold ${strat.riskColor}`}>{strat.risk}</span>
-                    </div>
-                    <p className="text-2xl font-black text-white/90 mb-2">{strat.points}</p>
-                    <p className="text-xs text-zinc-500">{strat.description}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="mt-12 sm:mt-16">
+              <TournamentPlaysSection t={t} />
             </div>
           </AnimateInView>
         </div>
